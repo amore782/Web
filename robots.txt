@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /css/
+Disallow: /js/
+Disallow: /images/
+
+Sitemap: https://www.enafor.dz/sitemap.xml
+
+# Crawl-delay for bots
+Crawl-delay: 10

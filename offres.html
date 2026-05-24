@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Consultez les appels d'offres et offres d'emploi de l'ENAFOR. Postulez aux postes de forage, engineering, maintenance et plus encore.">
+    <meta name="keywords" content="ENAFOR, appel d'offres, recrutement, emploi, forage, Algérie, SONATRACH">
+    <title>Appels d'Offres | ENAFOR - Espace Carrière</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader-container">
+            <div class="loader-logo">
+                <span class="logo-e">E</span>
+                <span class="logo-text">NAFOR</span>
+            </div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+            <p class="loader-text">Chargement...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-e">E</span>
+                <span class="logo-text">NAFOR</span>
+                <span class="logo-sub">Espace Carrière</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Accueil</a></li>
+                <li><a href="about.html" class="nav-link"><i class="fas fa-building"></i> Qui Sommes-Nous</a></li>
+                <li><a href="offres.html" class="nav-link active"><i class="fas fa-briefcase"></i> Appels d'Offres</a></li>
+                <li><a href="postuler.html" class="nav-link"><i class="fas fa-file-signature"></i> Postuler</a></li>
+                <li><a href="admin.html" class="nav-link admin-link"><i class="fas fa-lock"></i> Administration</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="page-header-overlay"></div>
+        <div class="container">
+            <div class="page-header-content">
+                <span class="page-badge"><i class="fas fa-briefcase"></i> Opportunités</span>
+                <h1>Appels d'Offres & Offres d'Emploi</h1>
+                <p>Découvrez nos opportunités de carrière et postulez pour rejoindre l'équipe ENAFOR</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search & Filter Section -->
+    <section class="search-filter">
+        <div class="container">
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label><i class="fas fa-search"></i> Rechercher</label>
+                    <input type="text" id="searchInput" placeholder="Titre, mot-clé, référence...">
+                </div>
+                <div class="filter-group">
+                    <label><i class="fas fa-layer-group"></i> Catégorie</label>
+                    <select id="categoryFilter">
+                        <option value="">Toutes les catégories</option>
+                        <option value="forage">Forage</option>
+                        <option value="workover">Work Over</option>
+                        <option value="maintenance">Maintenance</option>
+                        <option value="engineering">Engineering</option>
+                        <option value="qhse">QHSE</option>
+                        <option value="administration">Administration</option>
+                        <option value="informatique">Informatique</option>
+                        <option value="logistique">Logistique</option>
+                        <option value="formation">Formation</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label><i class="fas fa-map-marker-alt"></i> Localisation</label>
+                    <select id="locationFilter">
+                        <option value="">Toutes les localisations</option>
+                        <option value="hassi-messaoud">Hassi Messaoud</option>
+                        <option value="alger">Alger</option>
+                        <option value="ouargla">Ouargla</option>
+                        <option value="illizi">Illizi</option>
+                        <option value="national">National</option>
+                        <option value="international">International</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label><i class="fas fa-calendar"></i> Statut</label>
+                    <select id="statusFilter">
+                        <option value="">Tous les statuts</option>
+                        <option value="ouvert">Ouvert</option>
+                        <option value="ferme">Fermé</option>
+                        <option value="bientot">Bientôt</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" id="filterBtn">
+                    <i class="fas fa-filter"></i> Filtrer
+                </button>
+                <button class="btn btn-outline" id="resetBtn">
+                    <i class="fas fa-undo"></i> Réinitialiser
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Offers List -->
+    <section class="offers-list-section">
+        <div class="container">
+            <div class="offers-header">
+                <h2><i class="fas fa-list"></i> Liste des Appels d'Offres</h2>
+                <div class="offers-count">
+                    <span id="offersCount">0</span> offre(s) trouvée(s)
+                </div>
+            </div>
+            <div class="offers-list" id="offersList">
+                <!-- Dynamically populated by JavaScript -->
+            </div>
+            <div class="pagination" id="pagination">
+                <!-- Dynamically populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Apply -->
+    <section class="how-to-apply">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Processus</span>
+                <h2 class="section-title">Comment Postuler ?</h2>
+            </div>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon"><i class="fas fa-search"></i></div>
+                    <h3>Rechercher</h3>
+                    <p>Consultez nos appels d'offres et trouvez le poste qui correspond à votre profil.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon"><i class="fas fa-file-alt"></i></div>
+                    <h3>Préparer</h3>
+                    <p>Rassemblez votre CV, lettre de motivation et diplômes requis pour le poste.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon"><i class="fas fa-paper-plane"></i></div>
+                    <h3>Postuler</h3>
+                    <p>Remplissez le formulaire en ligne et téléchargez vos documents.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <div class="step-icon"><i class="fas fa-envelope-open-text"></i></div>
+                    <h3>Suivre</h3>
+                    <p>Recevez une confirmation et suivez l'état de votre candidature.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <span class="logo-e">E</span>
+                        <span class="logo-text">NAFOR</span>
+                    </a>
+                    <p class="footer-desc">Entreprise Nationale de Forage - Filiale de SONATRACH. Plus de 60 ans d'excellence dans le forage et le work-over.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="about.html">Qui Sommes-Nous</a></li>
+                        <li><a href="offres.html">Appels d'Offres</a></li>
+                        <li><a href="postuler.html">Postuler</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Ressources</h4>
+                    <ul>
+                        <li><a href="about.html#formation">Formation</a></li>
+                        <li><a href="about.html#qhse">QHSE</a></li>
+                        <li><a href="about.html#certifications">Certifications</a></li>
+                        <li><a href="admin.html">Espace Admin</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Zone Industrielle, Bir Messaoud, BP N° 211 - Hassi Messaoud, Algérie</p>
+                    <p><i class="fas fa-phone"></i> +213 (0) 29 73 71 35</p>
+                    <p><i class="fas fa-fax"></i> +213 (0) 29 73 21 70</p>
+                    <p><i class="fas fa-envelope"></i> enafor@enafor.dz</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ENAFOR - Entreprise Nationale de Forage. Tous droits réservés.</p>
+                <p class="footer-sonatrach">Filiale de <strong>SONATRACH</strong> - Groupe Sonatrach</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

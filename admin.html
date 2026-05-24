@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Panneau d'administration ENAFOR - Gestion des appels d'offres et des candidatures.">
+    <title>Administration | ENAFOR - Espace Carrière</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="admin-body">
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loader-container">
+            <div class="loader-logo">
+                <span class="logo-e">E</span>
+                <span class="logo-text">NAFOR</span>
+            </div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+            <p class="loader-text">Chargement...</p>
+        </div>
+    </div>
+
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="login-brand">
+                <span class="logo-e">E</span>
+                <span class="logo-text">NAFOR</span>
+                <p>Espace Administration</p>
+            </div>
+            <form id="loginForm" class="login-form">
+                <h2><i class="fas fa-lock"></i> Connexion Administrateur</h2>
+                <div class="form-group">
+                    <label for="adminEmail">Email</label>
+                    <input type="email" id="adminEmail" placeholder="admin@enafor.dz" required>
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Mot de passe</label>
+                    <input type="password" id="adminPassword" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-sign-in-alt"></i> Se Connecter
+                </button>
+                <p class="login-hint">Par défaut : admin@enafor.dz / admin123</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard (hidden until login) -->
+    <div id="adminDashboard" class="admin-dashboard hidden">
+        <!-- Admin Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar-header">
+                <a href="index.html" class="admin-logo">
+                    <span class="logo-e">E</span>
+                    <span class="logo-text">NAFOR</span>
+                </a>
+                <span class="admin-badge">Admin</span>
+            </div>
+            <nav class="admin-nav">
+                <a href="#" class="admin-nav-item active" data-section="dashboard">
+                    <i class="fas fa-tachometer-alt"></i> Tableau de Bord
+                </a>
+                <a href="#" class="admin-nav-item" data-section="offers">
+                    <i class="fas fa-briefcase"></i> Appels d'Offres
+                </a>
+                <a href="#" class="admin-nav-item" data-section="candidates">
+                    <i class="fas fa-users"></i> Candidatures
+                </a>
+                <a href="#" class="admin-nav-item" data-section="stats">
+                    <i class="fas fa-chart-bar"></i> Statistiques
+                </a>
+                <a href="#" class="admin-nav-item" data-section="settings">
+                    <i class="fas fa-cog"></i> Paramètres
+                </a>
+            </nav>
+            <div class="admin-sidebar-footer">
+                <button id="logoutBtn" class="btn btn-outline btn-sm">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </button>
+            </div>
+        </aside>
+
+        <!-- Admin Main Content -->
+        <main class="admin-main">
+            <!-- Top Bar -->
+            <header class="admin-topbar">
+                <button id="sidebarToggle" class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="admin-topbar-right">
+                    <span class="admin-user">
+                        <i class="fas fa-user-shield"></i> Administrateur
+                    </span>
+                    <a href="index.html" class="btn btn-sm btn-outline">
+                        <i class="fas fa-external-link-alt"></i> Voir le Site
+                    </a>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <section id="dashboardSection" class="admin-section active">
+                <h2 class="admin-section-title"><i class="fas fa-tachometer-alt"></i> Tableau de Bord</h2>
+
+                <div class="admin-stats-grid">
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-icon blue"><i class="fas fa-briefcase"></i></div>
+                        <div class="admin-stat-info">
+                            <span class="admin-stat-number" id="totalOffers">0</span>
+                            <span class="admin-stat-label">Appels d'Offres</span>
+                        </div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-icon green"><i class="fas fa-users"></i></div>
+                        <div class="admin-stat-info">
+                            <span class="admin-stat-number" id="totalCandidates">0</span>
+                            <span class="admin-stat-label">Candidatures</span>
+                        </div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-icon orange"><i class="fas fa-clock"></i></div>
+                        <div class="admin-stat-info">
+                            <span class="admin-stat-number" id="pendingCandidates">0</span>
+                            <span class="admin-stat-label">En Attente</span>
+                        </div>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="admin-stat-icon purple"><i class="fas fa-eye"></i></div>
+                        <div class="admin-stat-info">
+                            <span class="admin-stat-number" id="openOffers">0</span>
+                            <span class="admin-stat-label">Offres Ouvertes</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-recent">
+                    <div class="admin-recent-card">
+                        <h3><i class="fas fa-clock"></i> Candidatures Récentes</h3>
+                        <div id="recentCandidates" class="recent-list">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+                    <div class="admin-recent-card">
+                        <h3><i class="fas fa-briefcase"></i> Appels d'Offres Actifs</h3>
+                        <div id="recentOffers" class="recent-list">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Offers Management Section -->
+            <section id="offersSection" class="admin-section">
+                <div class="admin-section-header">
+                    <h2 class="admin-section-title"><i class="fas fa-briefcase"></i> Gestion des Appels d'Offres</h2>
+                    <button id="addOfferBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Nouvel Appel d'Offres
+                    </button>
+                </div>
+
+                <div class="admin-table-container">
+                    <table class="admin-table" id="offersTable">
+                        <thead>
+                            <tr>
+                                <th>Référence</th>
+                                <th>Titre</th>
+                                <th>Catégorie</th>
+                                <th>Localisation</th>
+                                <th>Date Limite</th>
+                                <th>Statut</th>
+                                <th>Candidatures</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="offersTableBody">
+                            <!-- Dynamically populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Candidates Section -->
+            <section id="candidatesSection" class="admin-section">
+                <div class="admin-section-header">
+                    <h2 class="admin-section-title"><i class="fas fa-users"></i> Gestion des Candidatures</h2>
+                    <div class="admin-filters">
+                        <select id="candidateStatusFilter">
+                            <option value="">Tous les statuts</option>
+                            <option value="nouveau">Nouveau</option>
+                            <option value="en-cours">En Cours</option>
+                            <option value="retenu">Retenu</option>
+                            <option value="refuse">Refusé</option>
+                        </select>
+                        <input type="text" id="candidateSearch" placeholder="Rechercher un candidat...">
+                    </div>
+                </div>
+
+                <div class="admin-table-container">
+                    <table class="admin-table" id="candidatesTable">
+                        <thead>
+                            <tr>
+                                <th>N° Suivi</th>
+                                <th>Nom</th>
+                                <th>Poste</th>
+                                <th>Date</th>
+                                <th>Diplôme</th>
+                                <th>Expérience</th>
+                                <th>Statut</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="candidatesTableBody">
+                            <!-- Dynamically populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Stats Section -->
+            <section id="statsSection" class="admin-section">
+                <h2 class="admin-section-title"><i class="fas fa-chart-bar"></i> Statistiques</h2>
+                <div class="stats-grid">
+                    <div class="stat-chart-card">
+                        <h3>Candidatures par Mois</h3>
+                        <div id="monthlyChart" class="chart-placeholder">
+                            <div class="chart-bars">
+                                <div class="chart-bar" style="height: 30%"><span>Jan</span></div>
+                                <div class="chart-bar" style="height: 45%"><span>Fév</span></div>
+                                <div class="chart-bar" style="height: 25%"><span>Mar</span></div>
+                                <div class="chart-bar" style="height: 60%"><span>Avr</span></div>
+                                <div class="chart-bar" style="height: 40%"><span>Mai</span></div>
+                                <div class="chart-bar" style="height: 55%"><span>Juin</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-chart-card">
+                        <h3>Répartition par Catégorie</h3>
+                        <div id="categoryChart" class="chart-placeholder">
+                            <div class="pie-chart">
+                                <div class="pie-slice" style="--percentage: 35; --color: #1a5f7a;"><span>Forage 35%</span></div>
+                                <div class="pie-slice" style="--percentage: 25; --color: #57c5b6;"><span>Engineering 25%</span></div>
+                                <div class="pie-slice" style="--percentage: 20; --color: #159895;"><span>Maintenance 20%</span></div>
+                                <div class="pie-slice" style="--percentage: 20; --color: #e8f6f3;"><span>Autres 20%</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settingsSection" class="admin-section">
+                <h2 class="admin-section-title"><i class="fas fa-cog"></i> Paramètres</h2>
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3><i class="fas fa-database"></i> Données</h3>
+                        <p>Gérez les données stockées dans le navigateur.</p>
+                        <div class="settings-actions">
+                            <button id="exportDataBtn" class="btn btn-outline">
+                                <i class="fas fa-download"></i> Exporter les Données
+                            </button>
+                            <button id="importDataBtn" class="btn btn-outline">
+                                <i class="fas fa-upload"></i> Importer les Données
+                            </button>
+                            <button id="resetDataBtn" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Réinitialiser Tout
+                            </button>
+                        </div>
+                    </div>
+                    <div class="settings-card">
+                        <h3><i class="fas fa-user-cog"></i> Compte Administrateur</h3>
+                        <form id="changePasswordForm">
+                            <div class="form-group">
+                                <label>Nouveau Mot de Passe</label>
+                                <input type="password" id="newPassword" placeholder="Nouveau mot de passe">
+                            </div>
+                            <div class="form-group">
+                                <label>Confirmer le Mot de Passe</label>
+                                <input type="password" id="confirmPassword" placeholder="Confirmer le mot de passe">
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Changer le Mot de Passe
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add/Edit Offer Modal -->
+    <div id="offerModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="offerModalTitle"><i class="fas fa-briefcase"></i> Nouvel Appel d'Offres</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="offerForm">
+                <input type="hidden" id="offerId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Référence <span class="required">*</span></label>
+                        <input type="text" id="offerRef" required placeholder="AO-2026-001">
+                    </div>
+                    <div class="form-group">
+                        <label>Titre <span class="required">*</span></label>
+                        <input type="text" id="offerTitle" required placeholder="Titre du poste">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Catégorie <span class="required">*</span></label>
+                        <select id="offerCategory" required>
+                            <option value="">-- Sélectionnez --</option>
+                            <option value="forage">Forage</option>
+                            <option value="workover">Work Over</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="engineering">Engineering</option>
+                            <option value="qhse">QHSE</option>
+                            <option value="administration">Administration</option>
+                            <option value="informatique">Informatique</option>
+                            <option value="logistique">Logistique</option>
+                            <option value="formation">Formation</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Localisation <span class="required">*</span></label>
+                        <select id="offerLocation" required>
+                            <option value="">-- Sélectionnez --</option>
+                            <option value="hassi-messaoud">Hassi Messaoud</option>
+                            <option value="alger">Alger</option>
+                            <option value="ouargla">Ouargla</option>
+                            <option value="illizi">Illizi</option>
+                            <option value="national">National</option>
+                            <option value="international">International</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Type de Contrat <span class="required">*</span></label>
+                        <select id="offerContract" required>
+                            <option value="">-- Sélectionnez --</option>
+                            <option value="cdi">CDI</option>
+                            <option value="cdd">CDD</option>
+                            <option value="stage">Stage</option>
+                            <option value="apprentissage">Apprentissage</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date Limite <span class="required">*</span></label>
+                        <input type="date" id="offerDeadline" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label>Description <span class="required">*</span></label>
+                        <textarea id="offerDescription" rows="4" required placeholder="Description détaillée du poste..."></textarea>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label>Profil Recherché</label>
+                        <textarea id="offerProfile" rows="3" placeholder="Compétences et qualifications requises..."></textarea>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Statut</label>
+                        <select id="offerStatus">
+                            <option value="ouvert">Ouvert</option>
+                            <option value="ferme">Fermé</option>
+                            <option value="bientot">Bientôt</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre de Postes</label>
+                        <input type="number" id="offerPositions" min="1" value="1">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline modal-cancel">Annuler</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Candidate Detail Modal -->
+    <div id="candidateModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2><i class="fas fa-user"></i> Détails du Candidat</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div id="candidateDetailContent">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
